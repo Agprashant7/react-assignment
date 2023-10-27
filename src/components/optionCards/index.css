@@ -1,0 +1,42 @@
+.optionCardContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.optionCard {
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+.icon {
+  padding-right: 12px;
+  font-weight: 500;
+  position: relative;
+  margin-left: 15px;
+
+  /* width: 20%; */
+}
+.cardName {
+  font-size: 16px;
+  font-weight: bold;
+  color: gray;
+}
+.counts {
+  background-color: red;
+  width: 35px;
+  border-radius: 25px;
+  font-size: 14px;
+  color: white;
+}
+.dot {
+  position: relative;
+  bottom: 28px;
+  left: 20px;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+}

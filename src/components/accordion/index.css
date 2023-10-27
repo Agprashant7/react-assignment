@@ -1,0 +1,29 @@
+.accordionCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+
+}
+.accordionIcon {
+  padding-right: 12px;
+  position: relative;
+  margin-left: 15px;
+  margin-top: 5px;
+}
+.accordionName {
+  width: 70%;
+  text-align: left;
+  font-size: 16px;
+  font-weight: bold;
+  color: gray;
+}
+.arrow {
+  width: 20%;
+  text-align: left;
+}
+.accordionContent {
+  margin-left: 20px;
+}
