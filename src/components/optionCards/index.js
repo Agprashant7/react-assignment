@@ -2,12 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./index.css";
 import { FaSketch } from "react-icons/fa";
-const OptionCards = ({ cardName, bgColor, icon, count, isSelected }) => {
+const OptionCards = ({
+  cardName,
+  bgColor = "#524c4c",
+  icon,
+  count,
+  isSelected,
+}) => {
   return (
     <div
       className="optionCardContainer"
       style={{
-        backgroundColor: bgColor ? bgColor : "white",
+        // backgroundColor: bgColor,
         justifyContent: !count ? "start" : "start",
       }}
     >

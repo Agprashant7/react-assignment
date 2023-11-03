@@ -15,9 +15,9 @@ const Accordion = ({ accordionName, icon, children, isSelected }) => {
         <div className="arrow">
           <div>
             {isActive ? (
-              <FaAngleUp color="gray" />
+              <FaAngleUp color="white" />
             ) : (
-              <FaAngleDown color="gray" />
+              <FaAngleDown color="white" />
             )}
           </div>
         </div>

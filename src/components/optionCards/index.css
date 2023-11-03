@@ -3,6 +3,9 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  background-color: "#524c4c";
+  margin-top: 10px;
+  cursor: pointer;
 }
 .optionCard {
   width: 70%;
@@ -22,7 +25,13 @@
 .cardName {
   font-size: 16px;
   font-weight: bold;
-  color: gray;
+  color: white;
+}
+.cardName:hover {
+  color: #f5a623;
+}
+.icon:hover {
+  color: #f5a623;
 }
 .counts {
   background-color: red;
