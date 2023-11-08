@@ -34,6 +34,9 @@ header a {
 .nav-link:hover {
   color: #f5a623;
 }
+.nav-link:active {
+  color: #f5a623;
+}
 
 header i {
   font-size: 1.5em;
@@ -139,6 +142,9 @@ header p i {
 @media screen and (min-width: 800px) {
   .hidden-menu {
     display: none;
+  }
+  .hidden-menu-left {
+    background-color: #524c4c;
   }
 }
 
