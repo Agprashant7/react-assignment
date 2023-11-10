@@ -1,12 +1,7 @@
 import React from "react";
 
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Formik, Form, useFormik, Field, ErrorMessage } from "formik";
+import { Box, Button, TextField } from "@mui/material";
+import { Formik } from "formik";
 import * as Yup from "yup";
 const CheckoutForm = ({ handleSubmit }) => {
   const formValidationSchema = Yup.object().shape({
@@ -44,11 +39,9 @@ const CheckoutForm = ({ handleSubmit }) => {
             touched,
             errors,
             dirty,
-            isSubmitting,
             handleChange,
             handleBlur,
             handleSubmit,
-            handleReset,
             isValid,
           } = props;
           return (

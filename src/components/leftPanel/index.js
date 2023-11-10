@@ -11,28 +11,24 @@ import {
   FaBox,
   FaUserTie,
   FaFemale,
-  FaQuestion,
-  FaPhoneAlt,
-  FaSplotch,
 } from "react-icons/fa";
 import OptionCards from "../optionCards";
 import Accordion from "../accordion";
-import Avatar from "../avatar";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 const LeftPanel = ({ onClose }) => {
   const sampleData = [
     {
       cardName: "Men",
-      icon: <FaUserTie color="white" size={26} />,
+      icon: <FaUserTie color="white" size={26} />
     },
     {
       cardName: "Women",
-      icon: <FaFemale color="white" size={26} />,
+      icon: <FaFemale color="white" size={26} />
     },
     {
       cardName: "Kid",
-      icon: <FaChild color="white" size={26} />,
+      icon: <FaChild color="white" size={26} />
     },
     ,
   ];

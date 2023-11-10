@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, createContext } from "react";
+import {  createContext } from "react";
 import NavBar from "./components/navBar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
@@ -12,7 +12,7 @@ import Cart from "./components/pages/cart";
 import Checkout from "./components/pages/checkout";
 import { theme } from "./utils/theme";
 import Section from "./components/pages/section";
-import Footer from "./components/footer";
+// import Footer from "./components/footer";
 export const ProductsDetailsContext = createContext();
 function App() {
   return (

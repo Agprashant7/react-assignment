@@ -7,10 +7,8 @@ import {
   FaDiceD6,
   FaHeart,
   FaOpencart,
-  FaSistrix,
   FaUserAlt,
 } from "react-icons/fa";
-import { styled } from "@mui/system";
 import LeftPanel from "../leftPanel";
 const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
