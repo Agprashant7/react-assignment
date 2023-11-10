@@ -6,17 +6,28 @@ import { Typography } from "@mui/material";
 
 const ItemCard = ({ image, cardName, cardPrice, onClick, size }) => {
   return (
-    <Card sx={{ width: 300 }} onClick={onClick}>
-      <CardMedia sx={{ height: 280 }} image={image} title={cardName} />
+    <Card
+      sx={{
+        bgcolor: "#435c70",
+        width: { xs: 150, lg: 300 },
+        height: { xs: 250, lg: 380 },
+      }}
+      onClick={onClick}
+    >
+      <CardMedia
+        sx={{ height: { xs: 150, lg: 280 } }}
+        image={image}
+        title={cardName}
+      />
       <CardContent>
-        <Typography gutterBottom variant="body2">
+        <Typography gutterBottom variant={{ xs: "body1", lg: "h6" }}>
           {cardName}
         </Typography>
-        <Typography gutterBottom variant="body2">
-          {cardPrice}
+        <Typography gutterBottom variant="subtitle2">
+          &#8377;{cardPrice}
         </Typography>
         {size && (
-          <Typography gutterBottom variant="body2">
+          <Typography gutterBottom variant="subtitle2">
             Size:{size}
           </Typography>
         )}

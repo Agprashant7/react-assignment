@@ -39,5 +39,5 @@ Accordion.defaultProps = {
   Accordion: "Sample",
   icon: <FaAngleDown />,
   count: 0,
-  isSelected: true,
+  isSelected: false,
 };

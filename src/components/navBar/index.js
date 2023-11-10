@@ -13,16 +13,6 @@ import {
 import { styled } from "@mui/system";
 import LeftPanel from "../leftPanel";
 const NavBar = () => {
-  // const NavLink = styled((props) => (
-  //   <NavLinkBase {...props} end={props.to === "/"} />
-  // ))(({ theme }) => ({
-  //   textDecoration: "none",
-  
-  //   "&.active": {
-  //     color: "green",
-  //     fontSize: theme.spacing(3)
-  //   }
-  // }));
   const [showMenu, setShowMenu] = useState(false);
   const [showMenuLeft, setShowMenuLeft] = useState(false);
   return (
@@ -35,33 +25,7 @@ const NavBar = () => {
         >
           <FaBuromobelexperte size={28} />
         </button>
-        {/* <nav className={showMenu ? "hidden-menu show" : "hidden-menu hide"}>
-          <NavLink className="nav-link" to="/">
-            <div>
-              <FaDiceD6 />
-              <p>Home</p>
-            </div>
-          </NavLink>
-          <NavLink className="nav-link" to="/cart">
-            <div>
-              <FaOpencart />
-              <p>Cart</p>
-            </div>
-          </NavLink>
 
-          <NavLink className="nav-link" to="/Settings">
-            <div>
-              <FaSistrix />
-              <p>Settings</p>
-            </div>
-          </NavLink>
-          <NavLink className="nav-link" to="/accounts">
-            <div>
-              <FaUserAlt />
-              <p>Accounts</p>
-            </div>
-          </NavLink>
-        </nav> */}
         <nav className="top-menu">
           <NavLink className="nav-link" to="/">
             <div>
@@ -101,7 +65,7 @@ const NavBar = () => {
         </button>
 
         <nav className={showMenu ? "hidden-menu show" : "hidden-menu hide"}>
-          <NavLink activeClassName='is-active' className="nav-link" to="/Home">
+          <NavLink activeClassName="is-active" className="nav-link" to="/">
             <div>
               <FaDiceD6 />
               <p>Home</p>
@@ -115,7 +79,7 @@ const NavBar = () => {
           </NavLink>
           <NavLink className="nav-link" to="/wishlist">
             <div>
-            <FaHeart />
+              <FaHeart />
               <p>Wishlist</p>
             </div>
           </NavLink>

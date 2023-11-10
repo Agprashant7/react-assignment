@@ -4,13 +4,11 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-// import { productDetails } from "../../utils/sampleData";
 import { useNavigate } from "react-router-dom";
 import { ProductsDetailsContext } from "../../App";
 import ItemCard from "../itemCard";
+import { COLORS } from "../../utils/theme";
+import { Typography } from "@mui/material";
 export default function Home() {
   const productDetails = useContext(ProductsDetailsContext);
   const [tabValue, setTabValue] = React.useState(0);
@@ -20,10 +18,13 @@ export default function Home() {
   };
   let navigate = useNavigate();
   const SectionDetails = ({ data }) => {
+    let routName = data[0].section;
+    console.log(data);
     return (
       <Box>
-        <h2>{data[0].section}'s Section</h2>
+        {/* <h2>{name.toUpperCase()}'s Section</h2> */}
         <Box
+          mt={2}
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -34,53 +35,68 @@ export default function Home() {
         >
           {data.map((item, i) => {
             return (
-              <ItemCard
-                onClick={() => {
-                  navigate(`/products/${item.id}`);
-                }}
-                image={item.image[0]}
-                cardName={item.name}
-                cardPrice={item.price}
-              />
+              i < 4 && (
+                <ItemCard
+                  onClick={() => {
+                    navigate(`/products/${item.id}`);
+                  }}
+                  image={item.image[0]}
+                  cardName={item.name}
+                  cardPrice={item.price}
+                />
+              )
             );
           })}
         </Box>
+        {data.length > 4 && (
+          <Typography
+            onClick={() => navigate(`/section/${routName.toLowerCase()}`)}
+            sx={{ cursor: "pointer", textDecoration: "underline" }}
+          >
+            See more
+          </Typography>
+        )}
       </Box>
     );
   };
   return (
     <Container maxWidth="xl">
-      <Box sx={{ height: "auto" }}>
-        <img
-          src="https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/web_1_z75KGkf.jpg?format=webp&w=1500&dpr=1.0"
-          width={"100%"}
-          height={500}
-        />
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Tabs value={tabValue} onChange={handleChange}>
-            <Tab label="Men" />
-            <Tab label="Women" />
-            <Tab label="Kids" />
-          </Tabs>
-        </Box>
+      <img
+        src="https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/web_1_z75KGkf.jpg?format=webp&w=1500&dpr=1.0"
+        width={"100%"}
+        height={500}
+      />
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Tabs
+          textColor={COLORS.fontColor}
+          indicatorColor={"red"}
+          value={tabValue}
+          onChange={handleChange}
+        >
+          <Tab in label="Men" />
+          <Tab label="Women" />
+          <Tab label="Kids" />
+        </Tabs>
+      </Box>
+      <Box>
         {tabValue === 0 && (
           <SectionDetails
             data={productDetails.filter(function (item, i) {
-              return item.section === "Men";
+              return item.section === "men";
             })}
           />
         )}
         {tabValue === 1 && (
           <SectionDetails
             data={productDetails.filter(function (item, i) {
-              return item.section === "Women";
+              return item.section === "women";
             })}
           />
         )}
         {tabValue === 2 && (
           <SectionDetails
             data={productDetails.filter(function (item, i) {
-              return item.section === "Kids";
+              return item.section === "kid";
             })}
           />
         )}

@@ -20,10 +20,7 @@ const Cart = () => {
   let navigate = useNavigate();
 
   let parsedCartItem = cartItem.length > 0 ? JSON.parse(cartItem) : [];
-  //   useEffect(() => {
-  //     setCartItem(localStorage.getItem("cartItem"))
-  //   }, [parsedCartItem]);
-  // const calculateAmountToPay=()=>{
+
   let cartArrMrp = parsedCartItem.map((item, i) => {
     let mrp = getProductDetailById(item.id).mrp;
     let price = getProductDetailById(item.id).price;
@@ -39,30 +36,33 @@ const Cart = () => {
   }, 0);
   let gst = (totalMrp * 5) / 100;
   let amountToPay = totalMrp - totalDiscount + gst;
-  localStorage.setItem('total',amountToPay)
+  localStorage.setItem("total", amountToPay);
   const wishlistLocalStorage = JSON.parse(
     localStorage.getItem("wishlist") || "[]"
   );
 
   const [wishlist, SetWishlist] = useState(wishlistLocalStorage);
-
-  //return{'totalMrp':totalMrp,'totalDiscount':totalDiscount,'gst':gst,'amountToPay':amountToPay}
-
-  // calculateAmountToPay()
   const moveToWishlist = (id, size) => {
     let wishlistItem = { id: id, size: size };
+    let checkIfItemExist = wishlist.filter((res, i) => res.id == id);
+    if (checkIfItemExist) {
+      removeFromCart(id, size);
+      return;
+    }
+
     wishlist.push(wishlistItem);
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
     // remove from cart
-    removeFromCart(id);
+    removeFromCart(id, size);
   };
-  const removeFromCart = (id) => {
-    const filterCart = JSON.parse(cartItem).filter((res, i) => res.id !== id);
-    console.log(filterCart);
+  const removeFromCart = (e, id, size) => {
+    e.stopPropagation();
+    const filterCart = JSON.parse(cartItem).filter(
+      (res, i) => (res.id == id) & (res.size !== size)
+    );
     setCartItem(JSON.stringify(filterCart));
     localStorage.setItem("cartItem", JSON.stringify(filterCart));
   };
-  console.log(typeof cartItem);
   return cartItem.length > 3 ? (
     <Container maxWidth={"md"}>
       <Box
@@ -81,7 +81,15 @@ const Cart = () => {
           return (
             <Paper
               elevation={3}
-              sx={{ display: "flex", justifyContent: "flex-start" }}
+              sx={{
+                display: "flex",
+                bgcolor: "#435c70",
+                justifyContent: "flex-start",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                navigate(`/products/${cart.id}`);
+              }}
             >
               <Box sx={{ width: "30%" }}>
                 <img
@@ -129,8 +137,19 @@ const Cart = () => {
                 <Typography>Size:{cart.size}</Typography>
                 <Typography>Quantity:{cart.quantity}</Typography>
                 <hr></hr>
-                <Button onClick={() => removeFromCart(cart.id)}>Remove</Button>
-                <Button onClick={() => moveToWishlist(cart.id, cart.size)}>
+                <Button
+                  color="secondary"
+                  onClick={(e) => removeFromCart(e, cart.id, cart.size)}
+                >
+                  Remove
+                </Button>
+                <Button
+                  color="secondary"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    moveToWishlist(cart.id, cart.size);
+                  }}
+                >
                   Move to wishlist
                 </Button>
               </Box>
@@ -145,6 +164,7 @@ const Cart = () => {
           height: 100,
           display: "flex",
           justifyContent: "space-around",
+          bgcolor: "#435c70",
         }}
         elevation={3}
       >
@@ -162,7 +182,11 @@ const Cart = () => {
         </Box>
       </Paper>
       <Box mt={2}>
-        <Button onClick={() => navigate("/checkout")} variant="contained">
+        <Button
+          color="secondary"
+          onClick={() => navigate("/checkout")}
+          variant="contained"
+        >
           Checkout
         </Button>
       </Box>

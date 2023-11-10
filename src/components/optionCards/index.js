@@ -4,7 +4,7 @@ import "./index.css";
 import { FaSketch } from "react-icons/fa";
 const OptionCards = ({
   cardName,
-  bgColor = "#524c4c",
+  bgColor = "#567086",
   icon,
   count,
   isSelected,

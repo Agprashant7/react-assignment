@@ -3,29 +3,24 @@ import React from "react";
 import {
   Box,
   Button,
-  Checkbox,
-  Container,
-  FormControlLabel,
-  FormGroup,
-  Paper,
-  Radio,
   TextField,
   Typography,
 } from "@mui/material";
 import { Formik, Form, useFormik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-const CheckoutForm = ({handleSubmit}) => {
-  
+const CheckoutForm = ({ handleSubmit }) => {
   const formValidationSchema = Yup.object().shape({
-    email: Yup.string().email().required("Required"),
-    firstName: Yup.string().required("Required"),
-    lastName: Yup.string().required("Required"),
-    phone: Yup.string().required("Required"),
-    address1: Yup.string().required("Required"),
-    address2: Yup.string().required("Required"),
-    pincode: Yup.string().required("Required"),
-    city: Yup.string().required("Required"),
-
+    email: Yup.string().email("must valid email").required("Required"),
+    firstName: Yup.string().min(4, "minimum 4 characters").required("Required"),
+    lastName: Yup.string().min(2, "minimum 2 character").required("Required"),
+    phone: Yup.string()
+      .min(10, "less than 10 digits")
+      .max(10, "more than 10 digit")
+      .required("Required"),
+    address1: Yup.string().min(6).required("Required"),
+    address2: Yup.string().min(6).required("Required"),
+    pincode: Yup.string().min(5).required("Required"),
+    city: Yup.string().min(4).required("Required"),
   });
   return (
     <Box>
@@ -78,6 +73,7 @@ const CheckoutForm = ({handleSubmit}) => {
                     errors.firstName && touched.firstName && errors.firstName
                   }
                   margin="normal"
+                  error={errors.lastName && touched.lastName}
                 />
 
                 <TextField
@@ -107,11 +103,13 @@ const CheckoutForm = ({handleSubmit}) => {
                 <TextField
                   label="phone"
                   name="phone"
+                  type="integer"
                   value={values.phone}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   helperText={errors.phone && touched.phone && errors.phone}
                   margin="normal"
+                  error={errors.phone && touched.phone}
                 />
                 <TextField
                   label="Address:Street"
@@ -123,6 +121,7 @@ const CheckoutForm = ({handleSubmit}) => {
                     errors.address1 && touched.address1 && errors.address1
                   }
                   margin="normal"
+                  error={errors.address1 && touched.address1}
                 />
                 <TextField
                   label="Address:Building Name"
@@ -134,6 +133,7 @@ const CheckoutForm = ({handleSubmit}) => {
                     errors.address2 && touched.address2 && errors.address2
                   }
                   margin="normal"
+                  error={errors.address2 && touched.address2}
                 />
 
                 <TextField
@@ -145,6 +145,7 @@ const CheckoutForm = ({handleSubmit}) => {
                   helperText={
                     errors.address2 && touched.pincode && errors.pincode
                   }
+                  error={errors.pincode && touched.pincode}
                   margin="normal"
                 />
                 <TextField
@@ -155,12 +156,14 @@ const CheckoutForm = ({handleSubmit}) => {
                   onBlur={handleBlur}
                   helperText={errors.city && touched.city && errors.city}
                   margin="normal"
+                  error={errors.city && touched.city}
                 />
               </Box>
               <Button
                 onClick={handleSubmit}
                 disabled={!dirty || !isValid}
                 variant="contained"
+                color="secondary"
               >
                 Add
               </Button>
