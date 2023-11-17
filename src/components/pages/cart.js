@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import {
   Button,
-  CircularProgress,
   Container,
-  Grid,
   Typography,
 } from "@mui/material";
 import { COLORS } from "../../utils/theme";
@@ -42,23 +40,28 @@ const Cart = () => {
   );
 
   const [wishlist, SetWishlist] = useState(wishlistLocalStorage);
-  const moveToWishlist = (id, size) => {
+
+  const moveToWishlist = (e, id, size) => {
     let wishlistItem = { id: id, size: size };
     let checkIfItemExist = wishlist.filter((res, i) => res.id == id);
-    if (checkIfItemExist) {
-      removeFromCart(id, size);
+    if (checkIfItemExist.length>0) {
+     
+      removeFromCart(e, id, size);
       return;
     }
 
     wishlist.push(wishlistItem);
+
+    
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
     // remove from cart
-    removeFromCart(id, size);
+    removeFromCart(e, id, size);
   };
   const removeFromCart = (e, id, size) => {
     e.stopPropagation();
+    let concat = `${id}${size}`;
     const filterCart = JSON.parse(cartItem).filter(
-      (res, i) => (res.id == id) & (res.size !== size)
+      (res, i) => res.id + res.size != concat
     );
     setCartItem(JSON.stringify(filterCart));
     localStorage.setItem("cartItem", JSON.stringify(filterCart));
@@ -147,7 +150,7 @@ const Cart = () => {
                   color="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
-                    moveToWishlist(cart.id, cart.size);
+                    moveToWishlist(e, cart.id, cart.size);
                   }}
                 >
                   Move to wishlist

@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 export const ProductsDetails = [
   {
     section: "men",
