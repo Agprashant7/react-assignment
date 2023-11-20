@@ -10,7 +10,7 @@ const ItemCard = ({ image, cardName, cardPrice, onClick, size }) => {
       sx={{
         bgcolor: "#435c70",
         width: { xs: 150, lg: 300 },
-        height: { xs: 250, lg: 380 },
+        height: { xs: 280, lg: 380 },
       }}
       onClick={onClick}
     >

@@ -90,7 +90,7 @@ const Checkout = () => {
                       {GetProductDetailById(item.id).name}
                     </Typography>
                     <Typography>
-                      {GetProductDetailById(item.id).price}
+                      &#8377; {GetProductDetailById(item.id).price}
                     </Typography>
                     <Typography>Qty:{item.quantity}</Typography>
                   </Box>
@@ -102,7 +102,7 @@ const Checkout = () => {
             <Typography variant="subtitle2">
               Total Amount To Pay:
               <Typography variant="h6">
-                {localStorage.getItem("total")}
+                &#8377; {localStorage.getItem("total")}
               </Typography>
             </Typography>
             <Typography variant="caption">*Inc Discount and GST</Typography>

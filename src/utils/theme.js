@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 import { green, purple } from "@mui/material/colors";
 export const COLORS = {
-  primary: "#567086",
+  primary: "#435c70",
   secondary: "#f5a623",
   fontColor: "white",
   highLighter: "red",
