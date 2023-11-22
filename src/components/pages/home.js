@@ -62,6 +62,7 @@ export default function Home() {
   return (
     <Container maxWidth="xl">
       <img
+       onClick={()=>navigate(`/section/Latest`)}
         src="https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/web_1_z75KGkf.jpg?format=webp&w=1500&dpr=1.0"
         width={"100%"}
         height={500}
@@ -112,9 +113,9 @@ export default function Home() {
             gap: 2,
           }}
         >
-          <img src="https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/Collection-tile_EHW23s8.jpg?format=webp&w=480&dpr=1.0" />
-          <img src="https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/jeans_Y0zDI8p.jpg?format=webp&w=480&dpr=1.0" />
-          <img src="https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/Collection_Tile_OS_POLOs_copy_FcA6U8H.jpg?format=webp&w=480&dpr=1.0" />
+          <img onClick={()=>navigate(`/section/Latest`)} src="https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/Collection-tile_EHW23s8.jpg?format=webp&w=480&dpr=1.0" />
+          <img  onClick={()=>navigate(`/section/Latest`)} src="https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/jeans_Y0zDI8p.jpg?format=webp&w=480&dpr=1.0" />
+          <img   onClick={()=>navigate(`/section/Latest`)}src="https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/Collection_Tile_OS_POLOs_copy_FcA6U8H.jpg?format=webp&w=480&dpr=1.0" />
         </Box>
       </Box>
     </Container>

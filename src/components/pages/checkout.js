@@ -58,8 +58,9 @@ const Checkout = () => {
         </Box>
       </Box>
       <hr></hr>
-      <Accordion sx={{ bgcolor: COLORS.primary }}>
+      <Accordion  sx={{ bgcolor: COLORS.primary }}>
         <AccordionSummary
+         
           expandIcon={<FaAngleUp />}
           aria-controls="panel1a-content"
           id="panel1a-header"

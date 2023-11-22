@@ -10,27 +10,30 @@ const Section = () => {
   const productDetails = useContext(ProductsDetailsContext);
   useEffect(() => {
     let key = name;
-    let filterProductWithCategory = productDetails.filter(
-      (item, i) => item.category == key || item.section == key
-    );
-    console.log(name);
-    console.log(filterProductWithCategory);
-    setProducts(filterProductWithCategory);
+    if (key !== "Latest") {
+      let filterProductWithCategory = productDetails.filter(
+        (item, i) => item.category === key || item.section === key
+      );
+      setProducts(filterProductWithCategory);
+      return;
+    }
+    let filterLatest = productDetails.filter((item, i) => item.latest === "Y");
+    setProducts(filterLatest);
   }, [name]);
 
   const [products, setProducts] = useState();
   const getSectionName = (name) => {
-    if (name == "topwear") {
+    if (name === "topwear") {
       return "Top Wear";
-    } else if (name == "bottomwear") {
+    } else if (name === "bottomwear") {
       return "Bottom Wear";
-    } else if (name == "kids") {
+    } else if (name === "kids") {
       return "Kid";
-    } else if (name == "mens") {
+    } else if (name === "men") {
       return "Men";
-    } else if (name == "women") {
+    } else if (name === "women") {
       return "Women";
-    } else if (name == "women") {
+    } else if (name === "women") {
       return "Women";
     } else {
       return name;
@@ -40,13 +43,18 @@ const Section = () => {
   return products ? (
     <Container maxWidth="lg">
       <Box mt={10}>
-        <Box sx={{ textAlign: "left" }}>
-          <Typography variant="h6">{`${getSectionName(name)} - ${
-            products.length
-          } items`}</Typography>
+        <Box sx={{ TypographyAlign: "left" }}>
+          {name !== "Latest" ? (
+            <Typography>{`${getSectionName(name)}- ${
+              products?.length
+            } Items`}</Typography>
+          ) : (
+            <Typography variant="h5" >Latest Collections</Typography>
+          )}
         </Box>
 
         <Box
+        mt={5}
           sx={{
             display: "flex",
             flexDirection: "row",
