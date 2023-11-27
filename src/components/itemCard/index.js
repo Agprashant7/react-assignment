@@ -3,12 +3,15 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { Typography } from "@mui/material";
+import zIndex from "@mui/material/styles/zIndex";
+import { COLORS } from "../../utils/theme";
 
 const ItemCard = ({ image, cardName, cardPrice, onClick, size }) => {
   return (
     <Card
       sx={{
-        bgcolor: "#435c70",
+    
+        bgcolor: COLORS.primary,
         width: { xs: 150, lg: 300 },
         height: { xs: 280, lg: 380 },
       }}

@@ -24,5 +24,16 @@ export const theme = createTheme({
         color: COLORS.fontColor,
       },
     },
+    MuiCardMedia: {
+      styleOverrides: {
+        root: {
+          ":hover": {
+            transform: "scale(1.3,1.3)",
+            
+          },
+        transition:'2s, 2s'
+        },
+      },
+    },
   },
 });

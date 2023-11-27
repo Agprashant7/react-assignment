@@ -2,9 +2,7 @@ import { Alert, Button, InputLabel, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { styled } from "@mui/material/styles";
 import { ProductsDetailsContext } from "../../App";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
@@ -14,6 +12,7 @@ import TextField from "@mui/material/TextField";
 import { FaHeart, FaSmile } from "react-icons/fa";
 import { COLORS } from "../../utils/theme";
 import CustomModal from "../modal";
+
 export const discountedPrice = (mrp, price) => {
   let calculate = mrp - price;
   calculate = calculate / mrp;
@@ -24,7 +23,7 @@ export const discountedPrice = (mrp, price) => {
 const Products = () => {
   useEffect(() => {
     let ls = JSON.parse(localStorage.getItem("wishlist") || "[]");
-    let isItemInWishlist = ls.filter((item, i) => item.id == id);
+    let isItemInWishlist = ls.filter((item, i) => item.id === id);
     SetWishlist(ls);
     if (isItemInWishlist.length > 0) {
       setWishlistButton(true);
@@ -42,9 +41,9 @@ const Products = () => {
   });
   const cartLocalStorage = JSON.parse(localStorage.getItem("cartItem") || "[]");
   const [cart, setCart] = useState(cartLocalStorage);
-  const wishlistLocalStorage = JSON.parse(
-    localStorage.getItem("wishlist") || "[]"
-  );
+  // const wishlistLocalStorage = JSON.parse(
+  //   localStorage.getItem("wishlist") || "[]"
+  // );
 
   const [wishlist, SetWishlist] = useState();
   const [validation, setValidation] = useState(false);
@@ -66,7 +65,7 @@ const Products = () => {
       return;
     }
     let checkForExisting = cart.filter(
-      (res, i) => (res.id == itemSchema.id) & (itemSchema.size == res.size)
+      (res, i) => (res.id === itemSchema.id) & (itemSchema.size === res.size)
     );
 
     if (checkForExisting.length > 0) {
@@ -86,12 +85,22 @@ const Products = () => {
     <Box>
       <Grid container spacing={2}>
         <Grid mt={4} item xs={12} md={5}>
-          <Box mt={4}>
-            <img
-              src={getProductDetail[0].image[newImage]}
-              width={{ xs: 200, lg: 500 }}
-              height={{ xs: 100, lg: 300 }}
-            />
+          <Box mt={4} sx={{ cursor: "pointer" }}>
+            <Box
+              sx={{
+                ":hover": { transform: "scale(1.5,1.5)" },
+                transition: "1s,1s",
+              }}
+            >
+              <img
+                alt="product "
+                src={getProductDetail[0].image[newImage]}
+                //  style={{}}
+                // width={{ xs: 100, lg: 200 }}
+                // height={{ xs: 100, lg: 100 }}
+              />
+            </Box>
+
             <Box
               mt={2}
               sx={{
@@ -103,12 +112,19 @@ const Products = () => {
             >
               {getProductDetail[0].image.map((image, i) => {
                 return (
-                  <img
-                    src={image}
-                    key={i}
-                    width={50}
-                    onClick={() => setNewImage(i)}
-                  />
+                  <Box>
+                    <img
+                      src={image}
+                      alt="product "
+                      key={i}
+                      style={{
+                        ":hover": { transform: "scale(1.5,1.5)" },
+                        transition: "1s,1s",
+                      }}
+                      width={50}
+                      onClick={() => setNewImage(i)}
+                    />
+                  </Box>
                 );
               })}
             </Box>
@@ -156,7 +172,7 @@ const Products = () => {
                       clickable={true}
                       sx={{
                         backgroundColor:
-                          itemSchema.size == res
+                          itemSchema.size === res
                             ? COLORS.secondary
                             : COLORS.fontColor,
                       }}
