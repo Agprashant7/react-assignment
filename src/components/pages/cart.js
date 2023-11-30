@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import {
-  Button,
-  Container,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import { COLORS } from "../../utils/theme";
 import getProductDetailById from "../../utils/getProductDetailById";
 import GetProductDetailById from "../../utils/getProductDetailById";
 import { discountedPrice } from "./products";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addToWishlist,
+  removeItem,
+} from "../../actions";
 const Cart = () => {
-  const [cartItem, setCartItem] = useState(
-    localStorage.getItem("cartItem") || []
-  );
+  const dispatch = useDispatch();
+  const cartRedux = useSelector((state) => state.cart.cart);
+  const wishlistRedux = useSelector((state) => state.wishlist.wishlist);
+  const [cartItem, setCartItem] = useState(cartRedux);
+  const [wishlist, SetWishlist] = useState(wishlistRedux);
   let navigate = useNavigate();
-
-  let parsedCartItem = cartItem.length > 0 ? JSON.parse(cartItem) : [];
+  let parsedCartItem = cartItem;
 
   let cartArrMrp = parsedCartItem.map((item, i) => {
     let mrp = getProductDetailById(item.id).mrp;
@@ -32,41 +34,30 @@ const Cart = () => {
       previousValue + currentValue.qty * currentValue.mrp - currentValue.price
     );
   }, 0);
+
   let gst = (totalMrp * 5) / 100;
   let amountToPay = totalMrp - totalDiscount + gst;
   localStorage.setItem("total", amountToPay);
-  const wishlistLocalStorage = JSON.parse(
-    localStorage.getItem("wishlist") || "[]"
-  );
-
-  const [wishlist, SetWishlist] = useState(wishlistLocalStorage);
 
   const moveToWishlist = (e, id, size) => {
     let wishlistItem = { id: id, size: size };
-    let checkIfItemExist = wishlist.filter((res, i) => res.id == id);
-    if (checkIfItemExist.length>0) {
-     
+    let checkIfItemExist = wishlist.filter((res, i) => res.id === id);
+    if (checkIfItemExist.length > 0) {
       removeFromCart(e, id, size);
       return;
     }
-
-    wishlist.push(wishlistItem);
-
-    
-    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    dispatch(addToWishlist(wishlistItem));
     // remove from cart
     removeFromCart(e, id, size);
   };
   const removeFromCart = (e, id, size) => {
     e.stopPropagation();
     let concat = `${id}${size}`;
-    const filterCart = JSON.parse(cartItem).filter(
-      (res, i) => res.id + res.size != concat
-    );
-    setCartItem(JSON.stringify(filterCart));
-    localStorage.setItem("cartItem", JSON.stringify(filterCart));
+    const filterCart = cartItem.filter((res, i) => res.id + res.size !==concat);
+    setCartItem(filterCart);
+    dispatch(removeItem(concat));
   };
-  return cartItem.length > 3 ? (
+  return cartItem.length>0 ? (
     <Container maxWidth={"md"}>
       <Box
         mt={10}
@@ -90,6 +81,7 @@ const Cart = () => {
                 justifyContent: "flex-start",
                 cursor: "pointer",
               }}
+              key={i}
               onClick={() => {
                 navigate(`/products/${cart.id}`);
               }}
@@ -98,6 +90,7 @@ const Cart = () => {
                 <img
                   height={"100%"}
                   width={"100%"}
+                  alt="product"
                   src={GetProductDetailById(cart.id).image}
                 />
               </Box>
@@ -139,7 +132,7 @@ const Cart = () => {
                 </Box>
                 <Typography>Size:{cart.size}</Typography>
                 <Typography>Quantity:{cart.quantity}</Typography>
-                <hr></hr>
+
                 <Button
                   color="secondary"
                   onClick={(e) => removeFromCart(e, cart.id, cart.size)}

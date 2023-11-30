@@ -63,7 +63,7 @@ const NavBar = () => {
         </button>
 
         <nav className={showMenu ? "hidden-menu show" : "hidden-menu hide"}>
-          <NavLink activeClassName="is-active" className="nav-link" to="/">
+          <NavLink className="nav-link" to="/">
             <div>
               <FaDiceD6 />
               <p>Home</p>

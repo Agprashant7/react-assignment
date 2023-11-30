@@ -5,9 +5,11 @@ import { useParams } from "react-router-dom";
 import { ProductsDetailsContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 const Section = () => {
+  
   let navigate = useNavigate();
   let { name } = useParams();
   const productDetails = useContext(ProductsDetailsContext);
+
   useEffect(() => {
     let key = name;
     if (key !== "Latest") {

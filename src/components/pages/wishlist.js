@@ -3,40 +3,36 @@ import React, { useEffect, useState } from "react";
 import ItemCard from "../itemCard";
 import GetProductDetailById from "../../utils/getProductDetailById";
 import { useNavigate } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
+import { addItem, removeFromWishlist } from "../../actions";
 const Whishlist = () => {
+  const dispatch = useDispatch();
+  const cartRedux = useSelector((state) => state.cart.cart);
+  const wishlistRedux = useSelector((state) => state.wishlist.wishlist);
   let navigate = useNavigate();
-  const wishlistLocalStorage = JSON.parse(
-    localStorage.getItem("wishlist") || "[]"
-  );
-
-  const [wishlist, SetWishlist] = useState(wishlistLocalStorage);
+  const [wishlist, SetWishlist] = useState(wishlistRedux);
+  const [load, setLoad] = useState();
+  const [cartItem, setCartItem] = useState(cartRedux);
+  useEffect(() => {
+    setCartItem(cartRedux);
+    SetWishlist(wishlistRedux);
+  }, [load]);
 
   const addToCart = (id, size) => {
     let cartSchema = { quantity: 1, size: size, id: id };
-    localStorage.removeItem("wishlist");
-    let cartLocalStorage = JSON.parse(localStorage.getItem("cartItem") || "[]");
-
-    cartLocalStorage.push(cartSchema);
-
-    localStorage.setItem("cartItem", JSON.stringify(cartLocalStorage));
+    dispatch(addItem(cartSchema));
     //removing from wishlist ls
-    removeFromWishlist(id);
+    removeItemFromWishlist(id);
+    setLoad(true);
   };
 
-  const removeFromWishlist = (id) => {
-    let wishlistLs = wishlist.filter((item, i) => item.id !== id);
-    console.log(wishlistLs);
-
-    SetWishlist(wishlistLs);
-
-    localStorage.setItem("wishlist", JSON.stringify(wishlistLs));
+  const removeItemFromWishlist = (id) => {
+    dispatch(removeFromWishlist(id));
+    setLoad(true);
   };
 
   const checkItemInCart = (id) => {
-    let cartLocalStorage = JSON.parse(localStorage.getItem("cartItem") || "[]");
-    let item = cartLocalStorage.filter((res, i) => res.id == id);
-    console.log(item);
+    let item = cartItem.filter((res, i) => res.id === id);
     if (item.length > 0) {
       return true;
     }
@@ -49,8 +45,9 @@ const Whishlist = () => {
         sx={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
-          cursor:'pointer'
+          justifyContent: "space-around",
+          flexWrap: "wrap",
+          cursor: "pointer",
         }}
       >
         {wishlist.map((item, i) => {
@@ -67,13 +64,16 @@ const Whishlist = () => {
                 size={item.size}
               />
               <Button
-              color="secondary" 
+                color="secondary"
                 disabled={checkItemInCart(item.id)}
                 onClick={() => addToCart(item.id, item.size)}
               >
                 {checkItemInCart(item.id) ? "Already In Cart" : "Add TO Cart"}
               </Button>
-              <Button color="secondary" onClick={() => removeFromWishlist(item.id)}>
+              <Button
+                color="secondary"
+                onClick={() => removeItemFromWishlist(item.id)}
+              >
                 Remove
               </Button>
             </Box>

@@ -12,6 +12,8 @@ import TextField from "@mui/material/TextField";
 import { FaHeart, FaSmile } from "react-icons/fa";
 import { COLORS } from "../../utils/theme";
 import CustomModal from "../modal";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, addToWishlist } from "../../actions";
 
 export const discountedPrice = (mrp, price) => {
   let calculate = mrp - price;
@@ -21,14 +23,22 @@ export const discountedPrice = (mrp, price) => {
 };
 
 const Products = () => {
+  const dispatch = useDispatch();
+  const cartRedux = useSelector((state) => state.cart.cart);
+  const wishlistRedux = useSelector((state) => state.wishlist.wishlist);
+  console.log("cart", cartRedux);
+  const [cart, setCart] = useState(cartRedux);
+  // const [wishlist, SetWishlist] = useState(wishlistRedux);
   useEffect(() => {
-    let ls = JSON.parse(localStorage.getItem("wishlist") || "[]");
-    let isItemInWishlist = ls.filter((item, i) => item.id === id);
-    SetWishlist(ls);
+    let isItemInWishlist = wishlistRedux.filter((item, i) => item.id === id);
     if (isItemInWishlist.length > 0) {
       setWishlistButton(true);
     }
   }, []);
+  const [loadRedux, setLoadRedux] = useState();
+  useEffect(() => {
+    setCart(cartRedux);
+  }, [loadRedux]);
   const productDetails = useContext(ProductsDetailsContext);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -39,13 +49,7 @@ const Products = () => {
     size: "",
     id: id,
   });
-  const cartLocalStorage = JSON.parse(localStorage.getItem("cartItem") || "[]");
-  const [cart, setCart] = useState(cartLocalStorage);
-  // const wishlistLocalStorage = JSON.parse(
-  //   localStorage.getItem("wishlist") || "[]"
-  // );
 
-  const [wishlist, SetWishlist] = useState();
   const [validation, setValidation] = useState(false);
   const [wishlistButton, setWishlistButton] = useState(false);
   const [message, setMessage] = useState({
@@ -53,21 +57,22 @@ const Products = () => {
     cartButton: false,
     wishlistButton: false,
   });
+
   const moveToWishlist = (id, size) => {
     let wishlistItem = { id: id, size: size };
-    wishlist.push(wishlistItem);
-    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+    dispatch(addToWishlist(wishlistItem));
     setWishlistButton(true);
   };
+
   const addToCart = () => {
     if (!itemSchema.size) {
       setValidation(true);
       return;
     }
-    let checkForExisting = cart.filter(
+    const checkForExisting = cart.filter(
       (res, i) => (res.id === itemSchema.id) & (itemSchema.size === res.size)
     );
-
     if (checkForExisting.length > 0) {
       setMessage({ itemExist: true });
       setTimeout(() => {
@@ -75,9 +80,8 @@ const Products = () => {
       }, 8000);
       return;
     }
-    cart.push(itemSchema);
-    // setCart([...cart,itemSchema]);
-    localStorage.setItem("cartItem", JSON.stringify(cart));
+    dispatch(addItem(itemSchema));
+    setLoadRedux(true);
     setMessage({ cartButton: true });
   };
 
@@ -95,9 +99,8 @@ const Products = () => {
               <img
                 alt="product "
                 src={getProductDetail[0].image[newImage]}
-                //  style={{}}
-                // width={{ xs: 100, lg: 200 }}
-                // height={{ xs: 100, lg: 100 }}
+                width={{ xs: 100, lg: 200 }}
+                height={{ xs: 100, lg: 100 }}
               />
             </Box>
 

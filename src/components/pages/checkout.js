@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import {
   Box,
@@ -6,7 +6,6 @@ import {
   Container,
   FormControlLabel,
   FormGroup,
-  Modal,
   Paper,
   Radio,
   Typography,
@@ -19,10 +18,18 @@ import CheckoutForm from "../form";
 import { useNavigate } from "react-router-dom";
 import CustomModal from "../modal";
 import { COLORS } from "../../utils/theme";
+import { useSelector, useDispatch } from "react-redux";
 const Checkout = () => {
+  const cartRedux = useSelector((state) => state.cart.cart);
+
+  useEffect(()=>{
+  if(cartRedux.length<1){
+    navigate('/')
+  }
+  },[])
   const navigate = useNavigate();
-  const [cartItem, setCartItem] = useState(
-    localStorage.getItem("cartItem") || []
+  const [cartItem, ] = useState(
+   cartRedux
   );
   const [address, setAddress] = useState();
   const [showModal, setShowModal] = useState(false);
@@ -54,7 +61,7 @@ const Checkout = () => {
           <Typography>No Of Items</Typography>
         </Box>
         <Box>
-          <Typography>{JSON.parse(cartItem).length}</Typography>
+          <Typography>{cartItem.length}</Typography>
         </Box>
       </Box>
       <hr></hr>
@@ -68,7 +75,7 @@ const Checkout = () => {
           <Typography variant="h6">Cart Details</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {JSON.parse(cartItem).map((item, i) => {
+          {cartItem.map((item, i) => {
             return (
               <Box mb={3}>
                 <Paper
