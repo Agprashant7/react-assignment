@@ -6,13 +6,24 @@ export const addItem = (payload) => {
 };
 
 export const removeItem = (id) => {
-  console.log(id);
   return {
     type: "REMOVE_ITEM",
     payload: id,
   };
 };
-
+export const clearStore = () => {
+ 
+  return {
+    type: "CLEAR_STORE",
+    //payload: id,
+  };
+};
+export const setCartAmount = (amount) => {
+  return {
+    type: "REMOVE_ITEM",
+    payload: amount,
+  };
+};
 export const getItems = (id) => {
   return {
     type: "GET_ITEM",

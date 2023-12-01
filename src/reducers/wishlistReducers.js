@@ -1,30 +1,35 @@
 const initialState = {
-    wishlist: [],
-  };
-  
-  const wishlistReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case "ADD_WISHLIST":
+  wishlist: [],
+};
+
+const wishlistReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "ADD_WISHLIST":
+      return {
+        ...state,
+        wishlist: [...state.wishlist,action.payload],
+     
+      };
+    case "REMOVE_WISHLIST":
+      return {
+        ...state,
+        wishlist: state.wishlist.filter((wishlist) => {return wishlist.id!== action.payload}),
+      };
+      case "GET_WISHLIST":
         return {
           ...state,
-          wishlist: [...state.wishlist,action.payload],
+          wishlist: localStorage.getItem('wishlist'),
        
         };
-      case "REMOVE_WISHLIST":
-        return {
-          ...state,
-          wishlist: state.wishlist.filter((wishlist) => {return wishlist.id!== action.payload}),
-        };
-        case "GET_WISHLIST":
+        case "CLEAR_STORE":
           return {
             ...state,
-            wishlist: localStorage.getItem('wishlist'),
+            wishlist:[]
          
           };
-      default:
-        return state;
-    }
-  };
-  
-  export default wishlistReducer;
-  
+    default:
+      return state;
+  }
+};
+
+export default wishlistReducer;

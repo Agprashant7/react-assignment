@@ -18,10 +18,11 @@ import CheckoutForm from "../form";
 import { useNavigate } from "react-router-dom";
 import CustomModal from "../modal";
 import { COLORS } from "../../utils/theme";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
+import { clearStore } from "../../actions";
 const Checkout = () => {
   const cartRedux = useSelector((state) => state.cart.cart);
-
+  const dispatch = useDispatch();
   useEffect(()=>{
   if(cartRedux.length<1){
     navigate('/')
@@ -41,6 +42,7 @@ const Checkout = () => {
   const placeOrder = () => {
     setShowModal(false);
     localStorage.clear();
+    dispatch(clearStore());
     navigate("/");
   };
   return (
