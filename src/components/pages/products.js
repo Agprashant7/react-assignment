@@ -26,7 +26,6 @@ const Products = () => {
   const dispatch = useDispatch();
   const cartRedux = useSelector((state) => state.cart.cart);
   const wishlistRedux = useSelector((state) => state.wishlist.wishlist);
-  console.log("cart", cartRedux);
   const [cart, setCart] = useState(cartRedux);
   // const [wishlist, SetWishlist] = useState(wishlistRedux);
   useEffect(() => {

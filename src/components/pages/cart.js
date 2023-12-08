@@ -8,16 +8,15 @@ import GetProductDetailById from "../../utils/getProductDetailById";
 import { discountedPrice } from "./products";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  addToWishlist,
-  removeItem,
-} from "../../actions";
+import { addItem, addToWishlist, removeItem } from "../../actions";
+import QuantityInput from "../quantityInput";
 const Cart = () => {
   const dispatch = useDispatch();
   const cartRedux = useSelector((state) => state.cart.cart);
   const wishlistRedux = useSelector((state) => state.wishlist.wishlist);
   const [cartItem, setCartItem] = useState(cartRedux);
   const [wishlist, SetWishlist] = useState(wishlistRedux);
+
   let navigate = useNavigate();
   let parsedCartItem = cartItem;
 
@@ -31,11 +30,11 @@ const Cart = () => {
   }, 0);
   let totalDiscount = cartArrMrp.reduce(function (previousValue, currentValue) {
     return (
-      previousValue + currentValue.qty * currentValue.mrp - currentValue.price
+      previousValue + currentValue.qty * (currentValue.mrp - currentValue.price)
     );
   }, 0);
 
-  let gst = (totalMrp * 5) / 100;
+  let gst = (totalMrp * 2) / 100;
   let amountToPay = totalMrp - totalDiscount + gst;
   localStorage.setItem("total", amountToPay);
 
@@ -50,14 +49,25 @@ const Cart = () => {
     // remove from cart
     removeFromCart(e, id, size);
   };
+
+  const updateQuantity = (newValue, id, size) => {
+    let concat = `${id}${size}`;
+    let obj = cartItem.filter((res, i) => res.id + res.size === concat);
+    obj[0].quantity = newValue;
+    dispatch(removeItem(concat));
+    dispatch(addItem(obj[0]));
+  };
+
   const removeFromCart = (e, id, size) => {
     e.stopPropagation();
     let concat = `${id}${size}`;
-    const filterCart = cartItem.filter((res, i) => res.id + res.size !==concat);
+    const filterCart = cartItem.filter(
+      (res, i) => res.id + res.size !== concat
+    );
     setCartItem(filterCart);
     dispatch(removeItem(concat));
   };
-  return cartItem.length>0 ? (
+  return cartItem.length > 0 ? (
     <Container maxWidth={"md"}>
       <Box
         mt={10}
@@ -67,7 +77,7 @@ const Cart = () => {
           "& > :not(style)": {
             m: 1,
             width: "100%",
-            height: 200,
+            height: 230,
           },
         }}
       >
@@ -80,6 +90,8 @@ const Cart = () => {
                 bgcolor: "#435c70",
                 justifyContent: "flex-start",
                 cursor: "pointer",
+                borderRadius: 2,
+                //paddingBottom:10
               }}
               key={i}
               onClick={() => {
@@ -90,6 +102,7 @@ const Cart = () => {
                 <img
                   height={"100%"}
                   width={"100%"}
+                  style={{ borderRadius: 8 }}
                   alt="product"
                   src={GetProductDetailById(cart.id).image}
                 />
@@ -104,17 +117,19 @@ const Cart = () => {
                 }}
                 mt={1}
               >
-                <Typography>{GetProductDetailById(cart.id).name}</Typography>
+                <Typography variant="h5">
+                  {GetProductDetailById(cart.id).name}
+                </Typography>
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-between",
-                    // alignItems: "center",
+                    alignItems: "center",
                     gap: 1,
                   }}
                 >
-                  <Typography variant="subtitle">
+                  <Typography variant="h6" color={COLORS.secondary}>
                     &#8377;{GetProductDetailById(cart.id).price}
                   </Typography>
                   <Typography
@@ -131,7 +146,16 @@ const Cart = () => {
                   </Typography>
                 </Box>
                 <Typography>Size:{cart.size}</Typography>
-                <Typography>Quantity:{cart.quantity}</Typography>
+                <Typography>Quantity:</Typography>
+                <Box mt={1}>
+                  <QuantityInput
+                    defaultValue={cart.quantity}
+                    onChange={(e, v) => {
+                      e.stopPropagation();
+                      updateQuantity(v, cart.id, cart.size);
+                    }}
+                  />
+                </Box>
 
                 <Button
                   color="secondary"
@@ -174,7 +198,9 @@ const Cart = () => {
           <Typography variant="subtitle2">&#8377;{totalMrp}</Typography>
           <Typography variant="subtitle2">- &#8377;{totalDiscount}</Typography>
           <Typography variant="subtitle2">+&#8377;{gst}</Typography>
-          <Typography variant="subtitle2">&#8377;{amountToPay}</Typography>
+          <Typography variant="h6" color={COLORS.secondary}>
+            &#8377;{amountToPay}
+          </Typography>
         </Box>
       </Paper>
       <Box mt={2}>
